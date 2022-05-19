@@ -22,7 +22,7 @@ const Home: NextPage = () => {
     }, [])
 
     const findNextVideo = () => {
-        if (playlist.length === 0) return;
+        if (playlist.length === 0) return {title: '', videoId: ''};
         const next = playlist[playlist.findIndex((v: any) => v.snippet.resourceId.videoId === localStorage.getItem('last-played-video-id')) + 1]
         if (!next) return {title: playlist[0].snippet.title, videoId: playlist[0].snippet.resourceId.videoId};
         return {title: next.snippet.title, videoId: next.snippet.resourceId.videoId}
@@ -122,12 +122,16 @@ const Home: NextPage = () => {
                         <div className={styles.card}>
                             <h2>Set Alarm</h2>
                             <p>
-                                {!alarmDate ? 'Please set time' : 'Alarm set to '}{alarmDate?.toLocaleTimeString()}
-                                <br/>
+                                {!alarmDate ? 'Please set time' : 'Alarm set to '}{alarmDate?.toLocaleTimeString()}<br/>
+                                {
+                                    findNextVideo().title === '' ?
+                                        null :
+                                        <div>
+                                            <small style={{fontSize: '0.9em'}}>with {findNextVideo().title}</small><br/>
+                                        </div>
+                                }
                                 <small
-                                    style={{fontSize: '0.9em'}}>{!findNextVideo() ? null : `with ${findNextVideo().title}`}</small><br/>
-                                <small
-                                    style={{fontSize: '0.7em'}}>{!findNextVideo() ? null : findNextVideo().videoId}</small>
+                                    style={{fontSize: '0.7em'}}>{findNextVideo().videoId === '' ? null : findNextVideo().videoId}</small>
                             </p>
                             <br/>
                             <input type="time" onChange={e => onTimeChange(e.target.value)} style={{width: '100%'}}/>
