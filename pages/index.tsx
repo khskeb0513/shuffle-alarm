@@ -14,6 +14,7 @@ const Home: NextPage = () => {
   const [playlist, setPlaylist] = useState<any[]>([]);
   const [playerSrc, setPlayerSrc] = useState('');
   const [alarmDate, setAlarmDate] = useState<Date | null>();
+  const [timerList, setTimerList] = useState<number[]>([]);
 
   useEffect(() => {
     const lastPlaylistId = localStorage.getItem('last-playlist-id');
@@ -79,8 +80,7 @@ const Home: NextPage = () => {
     date.setSeconds(0, 0);
     const timeValue = timeStr.split(':').map((v) => parseInt(v, 10));
     date.setHours(timeValue[0], timeValue[1]);
-    window.clearInterval();
-    window.setInterval(() => {
+    const timer = window.setInterval(() => {
       const nowDate = new Date();
       if (
         date.getHours() === nowDate.getHours() &&
@@ -90,6 +90,10 @@ const Home: NextPage = () => {
         onChangePlayerSrc(findNextVideo()?.videoId);
       }
     }, 800);
+    setTimerList([...timerList, timer]);
+    timerList
+      .filter((v) => v !== timer)
+      .forEach((v) => window.clearInterval(v));
     setAlarmDate(new Date(date.valueOf()));
   };
   const onUrlInputChange = (e: ChangeEvent<HTMLInputElement>) => {
