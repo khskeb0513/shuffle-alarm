@@ -30,6 +30,8 @@ const Home: NextPage = () => {
     const onChangePlayerSrc = (videoId: string) => {
         setPlayerSrc(`https://www.youtube.com/embed/${videoId}?autoplay=1&fs=0&loop=1&iv_load_policy=3`)
         localStorage.setItem('last-played-video-id', videoId)
+        const lastSetTime = localStorage.getItem('last-set-time')
+        if (!!lastSetTime) onTimeChange(lastSetTime)
     }
     const fetchPlaylist = (listId: string) => {
         fetch(`/api/playlist?playlistId=${listId}`)
