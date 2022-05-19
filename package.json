@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "rimraf .next && next build",
-    "start": "node server.js",
-    "lint": "next li nt",
+    "start": "next start",
+    "lint": "next lint",
     "postinstall": "npm run build"
   },
   "dependencies": {
