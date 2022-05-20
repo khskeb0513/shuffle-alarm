@@ -182,6 +182,7 @@ const Home: NextPage = () => {
                   height="auto"
                   src={playerSrc}
                   frameBorder="0"
+                  allow={'autoplay'}
                 />
               )}
             </div>
